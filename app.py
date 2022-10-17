@@ -36,7 +36,7 @@ t_livingroom = 22
 t_room1 = 23
 t_room2 = 24
 t_kitchen = 25
-time = 0
+time = "notset"
 
 # Fonctions
 def server():
@@ -45,10 +45,9 @@ def server():
 def get_time():
     time = datetime.datetime.now()
     time = time.strftime("%H:%M:%S")
-    return str(time)
-
+    return time
+    
 def interface():
-    get_time()
     screen.blit(default_wallpaper, (0, 0))
     screen.blit(livingroom_str, (16, 16))
     screen.blit(temp_livingroom, (16, 40))
@@ -73,7 +72,7 @@ room1_str = font32.render("Children's room", True, black)
 temp_room1 = font128.render(str(t_room1), True, black)
 room2_str = font32.render("Parents' room", True, black)
 temp_room2 = font128.render(str(t_room2), True, black)
-# time_str = font64.render(str(time), True, black)
+# time_str = font64.render((time), True, black)
 # kitchen_str = font32.render("Kitchen", True, black)
 # temp_kitchen = font128.render(str(t_kitchen), True, black)
 
@@ -84,8 +83,8 @@ serverThread.start()
 # Main loop
 while True:
     for event in pygame.event.get():
-        print(get_time())
-        time_str = font64.render(str(time), True, black)
+        # print(get_time())
+        time_str = font64.render((get_time()), True, black)
         interface()
         pygame.display.flip()
     if event.type == pygame.QUIT:
