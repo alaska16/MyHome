@@ -1,3 +1,6 @@
 .DS_Store
 assets/interface_default.xcf
 assets/placeholder64.xcf
+assets/temperature_icon.xcf
+.gitignore
+assets/humidity_icon.xcf

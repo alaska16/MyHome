@@ -13,6 +13,7 @@
 # v0.5a : dark mode at sunset
 # v0.6a : parameters charts (temperatures, humidity, ...)
 # v0.7a : écowatt
+# v0.8a : settings screen
 
 # Libraries imports
 import pygame
@@ -46,7 +47,12 @@ def get_time():
     time = datetime.datetime.now()
     time = time.strftime("%H:%M:%S")
     return time
-    
+
+def get_date():
+    date = datetime.datetime.today()
+    date = date.strftime("%B %d, %Y")
+    return date
+
 def interface():
     screen.blit(default_wallpaper, (0, 0))
     screen.blit(livingroom_str, (16, 16))
@@ -56,6 +62,10 @@ def interface():
     screen.blit(room2_str, (16, 276))
     screen.blit(temp_room2, (16, 304))
     screen.blit(time_str, (360, 16))
+    screen.blit(date_str, (360, 64))
+    screen.blit(placeholder64png, (128, 40)) # Temperature icon
+    screen.blit(placeholder64png, (128, 172)) # Temperature icon
+    screen.blit(placeholder64png, (128, 304)) # Temperature icon
     # screen.blit(placeholder64png, (16, 16))
     # screen.blit(placeholder128png, (480, 16))
     # pygame.draw.line(screen, black, (0, 240), (640, 240))
@@ -66,7 +76,7 @@ pygame.display.set_caption("MyHome App v0.1p")
 placeholder64png = pygame.image.load("assets/placeholder64.png")
 placeholder128png = pygame.image.load("assets/placeholder128.png")
 default_wallpaper = pygame.image.load("assets/interface_default.png")
-livingroom_str = font32.render("Living room", True, black)
+livingroom_str = font32.render("Living room", True, black) # Don't forget to render these strings/values in a function in future versions
 temp_livingroom = font128.render(str(t_livingroom), True, black)
 room1_str = font32.render("Children's room", True, black)
 temp_room1 = font128.render(str(t_room1), True, black)
@@ -82,10 +92,11 @@ serverThread.start()
 
 # Main loop
 while True:
+    time_str = font64.render((get_time()), True, black)
+    date_str = font32.render((get_date()), True, black)
+    interface()
+    pygame.display.flip()
     for event in pygame.event.get():
-        # print(get_time())
-        time_str = font64.render((get_time()), True, black)
-        interface()
-        pygame.display.flip()
+        print(get_time())
     if event.type == pygame.QUIT:
         break
