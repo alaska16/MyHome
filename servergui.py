@@ -5,6 +5,14 @@ from tkinter import *
 
 # To figure out later: is it better to send all the data in one single "cycle" or should it close the socket every time?
 
+# -- Variables --
+SERVER_HOST = "0.0.0.0"
+logging.info("Server is configured to listen to all IP adresses of this system.")
+SERVER_PORT = 5555
+BUFFER_SIZE = 4096
+logging.info("Buffer size : 4096")
+SEPARATOR = "<SEPARATOR>"
+
 # -- Interface --
 serverdebugwindow = Tk()
 t_livingroom = IntVar()
@@ -21,13 +29,3 @@ slider_room2 = Scale(serverdebugwindow, label = "Room2", variable= t_room2)
 slider_room2.pack(anchor = CENTER)
 # - Loop -
 serverdebugwindow.mainloop()
-
-# -- Variables --
-SERVER_HOST = "0.0.0.0"
-logging.info("Server is configured to listen to all IP adresses of this system.")
-SERVER_PORT = 5555
-BUFFER_SIZE = 4096
-logging.info("Buffer size : 4096")
-SEPARATOR = "<SEPARATOR>"
-
-print(t_livingroom)

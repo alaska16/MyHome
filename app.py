@@ -30,9 +30,18 @@ h_room1 = 0
 h_room2 = 0
 time = "00:00 (notset)"
 
+# -- Réseau --
+serverhost = "0.0.0.0"
+serverport = 11111
+buffersize = 4096
+# Receive multiple values with SEPARATOR? receiveddata.split(SEPARATOR)
+receiver = socket.socket()
+receiver.bind((serverhost, serverport))
+receiver.listen(1)
+
 # -- Fonctions --
 def server():
-    call(["python3", "server.py"])
+    call(["python", "prober.py"]) # "python3" for other environments
 
 def get_time():
     time = datetime.datetime.now()
@@ -78,22 +87,27 @@ default_wallpaper = pygame.image.load("assets/img/interface_default.png")
 livingroom_t_str = haskoy_extralight32.render("Living room", True, black) # Don't forget to render these strings/values in a function in future versions
 humidity_livingroom = haskoy_medium128.render(str(h_livingroom), True, black)
 temp_livingroom = haskoy_bold128.render(str(t_livingroom), True, black)
-room1_t_str = haskoy_extralight32.render("Children's room", True, black)
+room1_t_str = haskoy_extralight32.render("Room1", True, black)
 humidity_room1 = haskoy_medium128.render(str(h_room1), True, black)
 temp_room1 = haskoy_bold128.render(str(t_room1), True, black)
-room2_t_str = haskoy_extralight32.render("Parents' room", True, black)
+room2_t_str = haskoy_extralight32.render("Room2", True, black)
 humidity_room2 = haskoy_medium128.render(str(h_room2), True, black)
 temp_room2 = haskoy_bold128.render(str(t_room2), True, black)
 
 # -- Launch server --
-serverThread = threading.Thread(target=server)
-serverThread.start()
-
+# serverThread = threading.Thread(target=server)
+# serverThread.start()
+sender, address = receiver.accept() # ... Réception 1
 
 # -- Main loop --
 while True:
     time_str = haskoy_medium64.render((get_time()), True, black)
     date_str = haskoy_extralight32.render((get_date()), True, black)
+    # -- Receiving data --
+    receiveddata = sender.recv(buffersize).decode() # ... Réception 2
+    print(receiveddata)
+    t_livingroom = receiveddata
+    temp_livingroom = haskoy_bold128.render(str(t_livingroom), True, black)
     interface()
     pygame.display.flip()
     for event in pygame.event.get():
